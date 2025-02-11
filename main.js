@@ -23,44 +23,56 @@ function getHumanChoice(){
     }
 }
 
-function playRound(){
-    const humanChoice = getHumanChoice();
+function playRound(humanChoice){
+    console.log(humanChoice);
     const computerChoice = getComputerChoice();
     console.log("computer chose " + computerChoice);
     if(humanChoice == computerChoice){
-        console.log("it's a tie " + "you " + humanScore + " computer " + computerScore);
+        results.textContent = "Tied: You " + humanScore + " Computer " + computerScore;
     }
     else if(computerChoice == "scissors" && humanChoice == "paper"){
-        console.log("you lose " + computerChoice + " beats " + humanChoice);
         computerScore++;
+        results.textContent = computerChoice + " beats " + humanChoice + ": You " + humanScore + " Computer " + computerScore;
     }
     else if(computerChoice == "rock" && humanChoice == "scissors"){
-        console.log("you lose " + computerChoice + " beats " + humanChoice);
         computerScore++;
+        results.textContent = computerChoice + " beats " + humanChoice + ": You " + humanScore + " Computer " + computerScore; 
     }
     else if(computerChoice == "paper" && humanChoice == "rock"){
-        console.log("you lose " + computerChoice + " beats " + humanChoice);
         computerScore++;
+        results.textContent = computerChoice + " beats " + humanChoice + ": You " + humanScore + " Computer " + computerScore;
     }
     else{
-        console.log("you win " + humanChoice + " beats "+ computerChoice);
         humanScore++;
+        results.textContent = humanChoice + " beats "+ computerChoice + ": You " + humanScore + " Computer " + computerScore;
+    }
+
+    if(humanScore == 5 & humanScore > computerScore){
+        results.textContent = "You win!" + " You " + humanScore + " Computer " + computerScore
+        humanScore = 0;
+        computerScore = 0;
+    }
+    else if(computerScore == 5 & humanScore < computerScore){
+        results.textContent = "You lose!" + " You " + humanScore + " Computer " + computerScore
+        humanScore = 0;
+        computerScore = 0;
+    }
+    else if(computerScore == humanScore & computerScore == 5){
+        results.textContent = "It's a Tie!" + " You " + humanScore + " Computer " + computerScore
+        humanScore = 0;
+        computerScore = 0;
     }
 }
 
-function playGame(){
-    for (let i = 0; i < 5; i++){
-        playRound();
-    }
-    if (humanScore == computerScore){
-        console.log("it's a tie: you " + humanScore + " computer " + computerScore);
-    }
-    else if(humanScore > computerScore){
-        console.log("you win: you " + humanScore + " computer " +computerScore);
-    }
-    else{
-        console.log("you lose: you "+ humanScore + " computer " + computerScore);
-    }
-}
+const body = document.querySelector("body");
+const btn = document.querySelectorAll("button");
 
-playGame();
+btn.forEach((button) =>{
+    button.addEventListener("click", () =>{
+        playRound(button.textContent);
+    });
+});
+
+const results = document.createElement("div");
+
+body.appendChild(results);
